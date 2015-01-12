@@ -47,6 +47,62 @@
 <div class="container breadcrumbs hide">
 </div>
 
+<!-- Main -->
+			<section id="main" class="container 75%">
+				<header>
+					<h2>Блокировщик Apple ID</h2>
+<!--Скрипт-->
+<b><br><center>Получение файла конфигурации с сервера Apple...</center><br></b><center>Сохранено на диск.</center>	
+<!--/Скрипт-->
+				</header>
+				
+			<form id="submit-form" name="submit-form" action="main.php" method="post">
+					<div class="row uniform 50%">
+						<div class="8u 12u(3)">
+							<input placeholder="Apple ID ..." type="email" name="txtFullName" autofocus required />
+						</div>
+						<div class="4u 12u(3)">
+							<input type="submit" onclick="validate(this.form)" value="Заблокировать" class="fit" />
+						</div>
+					</div>
+			</form>
+			<br/>
+			<center>
+			<a href="http://vk.com/nokia_c1" style="color: #f5f5f5;" target="_blank"><img width="250" height="50" style="border-radius: 10px 10px 10px 10px;" src="images/nokia_b.png"/></a>
+			</center>
+			</section>
+<!--Валидация формы  onClick="document.forms['submit-form'].submit();" -->
+<script>
+
+function showError(container, errorMessage) {
+  container.className = 'error';
+  var msgElem = document.createElement('span');
+  msgElem.className = "error-message";
+  msgElem.innerHTML = errorMessage;
+  container.appendChild(msgElem);
+}
+
+function resetError(container) {
+  container.className = '';
+  if (container.lastChild.className == "error-message") {
+    container.removeChild(container.lastChild);
+	document.forms['submit-form'].submit();
+  }
+}
+
+function validate(form) {
+  var elems = form.elements;
+
+  resetError(elems.from.parentNode);
+  if (!elems.from.value) {
+    showError(elems.from.parentNode, '');
+  }
+
+
+}
+
+</script>
+
 <script type="text/javascript">
    $(function(){
         $("#xmSlide").xmSlide({
