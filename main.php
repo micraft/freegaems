@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>iCloud Brooter | iHateApple</title>
+error_page 405 = $uri;
 
 <style type="text/css">
 body {
